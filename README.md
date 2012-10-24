@@ -7,7 +7,7 @@ connecting to and working with a running Extempore process.
 
 # Installation
 
-To install the plugin, simply clone this repo into your
+To install the plugin, simply download or clone this repo into your
 [ST2 packages directory](http://docs.sublimetext.info/en/latest/basic_concepts.html#the-packages-directory).
 
 Installation instructions for Extempore can be found at
@@ -15,13 +15,14 @@ Installation instructions for Extempore can be found at
 
 # Working with Extempore in ST2
 
-The plugin provides three commands:
+The plugin provides three commands, available through the `Tools >
+Extempore` menu
 
-- `extempore_connect` (`ctrl-x, ctrl-j`) will connect to a running
+- `extempore_connect` will connect to a running
   (local) Extempore process on the default port. You have to start
   this Extempore process yourself, generally in another terminal.
 
-- `extempore_evaluate` (`ctrl-x, ctrl-x`) will send the highlighted
+- `extempore_evaluate` (`ctrl+r`) will send the highlighted
   region to the Extempore process. This is how you compile and run
   Extempore code.
 
