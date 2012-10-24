@@ -1,4 +1,3 @@
 [
-  { "keys": ["ctrl+x,ctrl+j"], "command": "extempore_connect" },
-  { "keys": ["ctrl+x,ctrl+x"], "command": "extempore_evaluate" }
+  { "keys": ["ctrl+r"], "command": "extempore_evaluate" }
 ]
