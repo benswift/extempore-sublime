@@ -1,58 +1,57 @@
 import sublime, sublime_plugin
 import socket
 
-class ExtemporeServerConnection:
-	"""A class representing a TCP connection to the Extempore server"""
-	# a dict for keeping track of all the connections
-	EXTEMPORE_CONNECTIONS = {}
-	def __init__(self, host='localhost', port=7099):
-		self.host = host
-		self.port = port
-		self.sock = None
-	def create_socket():
+# a dict (of sockets) for keeping track of all the connections
+EXTEMPORE_CONNECTIONS = {}
+
+class ExtemporeConnectCommand(sublime_plugin.WindowCommand):
+	"""Connect to a running Extempore server"""
+	host = None
+
+	def run(self):
+		if self.window.active_view().id() not in EXTEMPORE_CONNECTIONS:
+			# self.window.show_input_panel("Specify host:port", "localhost:7099", self.get_host, None, None)
+			self.connect(('localhost', 7099))
+
+	def get_host(self, hoststring):
+		h, p = hoststring.split(':')
+		self.host = (h, int(p))
+
+	def connect(self, host):
 		try:
-			self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			self.sock.settimeout(5)
-			self.sock.connect((self.host, self.port))
-			data = ExtemporeServerConnection.sock.recv(1024)
+			sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			sock.settimeout(5)
+			sock.connect(host)
+			data = sock.recv(1024)
 			sublime.status_message(data)
+			# add the socket to the global connections dict
+			EXTEMPORE_CONNECTIONS[self.window.active_view().id()] = sock
 		except socket.error, e:
 			sublime.status_message("Unable to connect to Extempore server: " + repr(e))
 			return None
-	def close_socket():
-		try:
-			self.sock.close()
-			sublime.status_message("Closed connection to Extempore server")
-		except socket.error, e:
-			print repr(e)
 
-class ExtemporeConnectCommand(sublime_plugin.TextCommand):
-	"""Connect to a running Extempore server at localhost:7099"""
-	def run(self,edit):
-		if extemore_connection_dict[view.id()]
-		# how do I check if there's an element there, and add one if not?
-		try:
-			ExtemporeServerConnection.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			ExtemporeServerConnection.s.settimeout(5)
-			ExtemporeServerConnection.s.connect((ExtemporeServerConnection.hostname, ExtemporeServerConnection.port))
-			data = ExtemporeServerConnection.s.recv(1024)
-			sublime.status_message(data)
-		except socket.error, e:
-			sublime.status_message("Unable to connect to Extempore server")
-			return None
-
-class ExtemporeDisconnectCommand(sublime_plugin.TextCommand):
+class ExtemporeDisconnectCommand(sublime_plugin.WindowCommand):
 	"""Disconnect from the Extempore server"""
 	def run(self, edit):
-		view.extempore_connect()
+		view_id = self.window.active_view().id()
+		if view_id in EXTEMPORE_CONNECTIONS:
+			try:
+				EXTEMPORE_CONNECTIONS[view_id].close()
+				sublime.status_message("Closed connection to Extempore server")
+			except socket.error, e:
+				print repr(e)
 
 class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 	"""Send the current defn/region to the Extempore server for evaluation"""
-	def __init__(self, view):
-		sublime_plugin.TextCommand.__init__(self, view)
+	# def __init__(self, view):
+	# 	sublime_plugin.TextCommand.__init__(self, view)
+
+	def defun_bounds(self):
+		# todo implement this!
+		pass
 
 	def send(self, sock, string):
-		count = sock.send(string + '\r\n')
+		sock.send(string + '\r\n')
 		return sock.recv(1024)
 		
 	def run(self, edit):
