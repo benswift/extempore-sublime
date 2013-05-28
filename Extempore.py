@@ -1,6 +1,5 @@
 import sublime, sublime_plugin
 import socket
-import re
 
 SETTINGS_FILE = 'Extempore.sublime-settings'
 EXTEMPORE_SOCKETS = {}
@@ -69,14 +68,19 @@ class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 
 	def toplevel_defun_region(self):
 		v = self.view
-		while not re.match(r'^\(', v.substr(v.sel()[0])):
+		reg = v.sel()[0]
+		old_reg = None
+		# loop until the region stabilises or starts at the beginning of a line
+		while reg != old_reg and v.rowcol(reg.a)[1] != 0:
 			v.run_command("expand_selection", {"to": "brackets"})
+			old_reg = reg
+			reg = v.sel()[0]
 
 	def run(self, edit):
 		v = self.view
 		v.run_command("single_selection")
 
-		if len(v.sel()[0]) == 0:
+		if v.sel()[0].empty():
 			# if no region highlighted, select the current 'top level' defun, otherwise just use the current selection
 			self.toplevel_defun_region()
 
@@ -84,6 +88,6 @@ class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 		try:
 			response = self.send_string_for_eval(v.substr(v.sel()[0]))
 			sublime.status_message(response)
-			v.sel()[0].clear()
+			v.sel().clear()
 		except socket.error as e:
 			sublime.status_message("No response from socket: {1}".format(e))
