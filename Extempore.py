@@ -66,28 +66,39 @@ class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 		except socket.error as e:
 			sublime.status_message("Error in connection to Extempore server: " + repr(e))
 
-	def toplevel_defun_region(self):
+# todo for tomorrow: I think this function should return a string, and then leave the point where it finds it (save it, then clear it, then add it with view.sel().add(sublime.Region(pos)))
+
+	def toplevel_def_string(self):
 		v = self.view
-		reg = v.sel()[0]
+		v.run_command("single_selection")
+		initial_reg = v.sel()[0]
+		reg = initial_reg
 		old_reg = None
 		# loop until the region stabilises or starts at the beginning of a line
 		while reg != old_reg and v.rowcol(reg.a)[1] != 0:
 			v.run_command("expand_selection", {"to": "brackets"})
 			old_reg = reg
 			reg = v.sel()[0]
+		def_str = v.substr(v.sel()[0])
+		# return the point to where it was
+		v.sel().clear()
+		v.sel().add(initial_reg)
+		return def_str
 
 	def run(self, edit):
 		v = self.view
-		v.run_command("single_selection")
 
 		if v.sel()[0].empty():
 			# if no region highlighted, select the current 'top level' defun, otherwise just use the current selection
-			self.toplevel_defun_region()
+			eval_str = self.toplevel_def_string()
+		else:
+			eval_str = v.substr(v.sel()[0])
 
 		# send the region to the Extempore server for evaluation
 		try:
-			response = self.send_string_for_eval(v.substr(v.sel()[0]))
+			response = self.send_string_for_eval(eval_str)
 			sublime.status_message(response)
-			v.sel().clear()
+		except TypeError as e:
+			sublime.status_message("")
 		except socket.error as e:
 			sublime.status_message("No response from socket: {1}".format(e))
