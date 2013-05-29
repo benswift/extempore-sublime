@@ -33,7 +33,7 @@ class ExtemporeConnectCommand(sublime_plugin.TextCommand):
 	def connect(self, host):
 		try:
 			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			s.settimeout(5)
+			s.settimeout(1.0)
 			s.connect(host)
 			data = s.recv(1024)
 			sublime.status_message(data)
@@ -60,7 +60,7 @@ class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 		try:
 			s = get_extempore_socket(self.view)
 			s.send(string + '\r\n')
-			return s.recv(1024)
+			return s.recv(4096)
 		except KeyError:
 			sublime.status_message("Error: cannot find an Extempore connection for this view")
 		except socket.error as e:
@@ -87,13 +87,11 @@ class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 
 	def run(self, edit):
 		v = self.view
-
+		# if no region highlighted, select the current 'top level' defun, otherwise just use the current selection
 		if v.sel()[0].empty():
-			# if no region highlighted, select the current 'top level' defun, otherwise just use the current selection
 			eval_str = self.toplevel_def_string()
 		else:
 			eval_str = v.substr(v.sel()[0])
-
 		# send the region to the Extempore server for evaluation
 		try:
 			response = self.send_string_for_eval(eval_str)
