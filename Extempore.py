@@ -81,6 +81,7 @@ class ExtemporeDisconnectCommand(sublime_plugin.TextCommand):
 
 class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 	"""Send the current defn/region to the Extempore server for evaluation"""
+
 	def __init__(self, view):
 		sublime_plugin.TextCommand.__init__(self, view)
 
@@ -93,8 +94,6 @@ class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 			sublime.status_message("Error: cannot find an Extempore connection for this view")
 		except socket.error as e:
 			sublime.status_message("Error in connection to Extempore server: " + repr(e))
-
-# todo for tomorrow: I think this function should return a string, and then leave the point where it finds it (save it, then clear it, then add it with view.sel().add(sublime.Region(pos)))
 
 	def toplevel_def_string(self):
 		v = self.view
