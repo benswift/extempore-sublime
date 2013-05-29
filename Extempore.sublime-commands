@@ -1,0 +1,5 @@
+[
+    { "caption": "Extempore: Connect", "command": "extempore_connect" },
+    { "caption": "Extempore: Disconnect", "command": "extempore_disconnect" },
+    { "caption": "Extempore: Evaluate", "command": "extempore_evaluate" }
+]
