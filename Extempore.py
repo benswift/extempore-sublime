@@ -4,10 +4,6 @@ import socket
 SETTINGS_FILE = 'Extempore.sublime-settings'
 EXTEMPORE_SOCKETS = {}
 
-# currently, the host and port are hardcoded
-# h, p = host_str.split(':')
-# self.window.show_input_panel("Specify host:port", "localhost:7099", self.on_done, None, None)
-
 def get_extempore_socket(current_view):
 	return EXTEMPORE_SOCKETS[current_view.id()]
 
@@ -24,14 +20,40 @@ def set_extempore_socket(current_view, sock):
 	else:
 		EXTEMPORE_SOCKETS[current_view.id()] = sock
 
+def delete_extempore_socket(current_view):
+	try:
+		del EXTEMPORE_SOCKETS[current_view.id()]
+	except KeyError:
+		sublime.status_message("No connection found for current view.")
+
 class ExtemporeConnectCommand(sublime_plugin.TextCommand):
 	"""Connect to a running Extempore server"""
-	def run(self, edit):
-		if not is_currently_connected(self.view):		
-			self.connect(('localhost', 7099))
+	default_host = 'localhost:7099'
 
-	def connect(self, host):
+	def run(self, edit):
+		if not is_currently_connected(self.view):
+			settings = sublime.load_settings(SETTINGS_FILE)
+			if settings.has('hosts'):
+				print settings.get('hosts')
+				self.view.window().show_quick_panel(settings.get('hosts'), self.host_selection_handler)
+			else:
+				self.view.window().show_input_panel("Specify 'host:port' to connect to:", self.default_host, self.connect, None, None)
+			self.connect('localhost')
+		else:
+			sublime.status_message("This view is already connected to Extempore, you can evaluate code with 'ctrl+x, ctrl+x'")
+
+	def host_selection_handler(self, idx):
+		if idx == -1:
+			self.view.window().show_input_panel("Specify 'host:port' to connect to:", self.default_host, self.connect, None, None)
+		else:
+			self.connect(self.default_host)
+
+	def connect(self, host_str):
 		try:
+			# parse the host:port string
+			h, p = host_str.split(':')
+			host = (h, int(p))
+			# set up the socket
 			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			s.settimeout(1.0)
 			s.connect(host)
@@ -39,17 +61,23 @@ class ExtemporeConnectCommand(sublime_plugin.TextCommand):
 			sublime.status_message(data)
 			# add this socket to the global socket dict
 			set_extempore_socket(self.view, s)
+		except ValueError:
+			sublime.status_message("Error in to host:port string")
 		except socket.error as e:
 			sublime.status_message("Unable to connect to Extempore server: " + repr(e))
 			return None
 
-	def disconnect(self):
-			try:
-				s = get_extempore_socket(self.view)
-				s.close()
-				sublime.status_message("Closed connection to Extempore server")
-			except socket.error as e:
-				sublime.status_message("Unable to disconnect: " + repr(e))
+class ExtemporeDisconnectCommand(sublime_plugin.TextCommand):
+	"""Delete the current view's connection to the Extempore server"""
+
+	def run(self, edit):
+		try:
+			s = get_extempore_socket(self.view)
+			s.close()
+			sublime.status_message("Closed connection to Extempore server")
+			delete_extempore_socket(self.view)
+		except socket.error as e:
+			sublime.status_message("Unable to disconnect: " + e.message)
 
 class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 	"""Send the current defn/region to the Extempore server for evaluation"""

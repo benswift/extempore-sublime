@@ -1,0 +1,6 @@
+{
+	"hosts": [
+		"localhost:7099",
+		"localhost:7098"
+	]
+}
