@@ -15,21 +15,16 @@ Installation instructions for Extempore can be found at
 
 # Working with Extempore in ST2
 
-The plugin provides three commands, available through the `Tools >
+The plugin provides two commands, available through the `Tools >
 Extempore` menu
 
-- `extempore_connect` will connect to a running
+- `extempore_connect` (`ctrl+x, ctrl+y`) will connect to a running
   (local) Extempore process on the default port. You have to start
   this Extempore process yourself, generally in another terminal.
 
-- `extempore_evaluate` (`ctrl+r`) will send the highlighted
-  region to the Extempore process. This is how you compile and run
-  Extempore code.
+- `extempore_evaluate` (`ctrl+x, ctrl+x`) will evaluate either the currently highlighted region (if applicable) or the current top-level def surrounding the cursor. This is how you send code to the Extempore process for evaluation.
 
-- `extempore_disconnect` does what it says on the tin.
-
-The keybindings are the same as the Extempore Emacs mode, but you can
-change them to whatever you like.
+The keybindings are the same as the Extempore Emacs mode, but you can change them to whatever you like.
 
 # Known Issues
 
