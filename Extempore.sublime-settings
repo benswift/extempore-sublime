@@ -1,6 +1,6 @@
 {
 	"hosts": [
-		"localhost:7099",
-		"localhost:7098"
+		[ "localhost:7099", "The default primary process address" ],
+		[ "localhost:7098", "The default utility process address" ]
 	]
 }
