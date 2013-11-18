@@ -94,6 +94,9 @@ class ExtemporeConnectionSet(dict):
 		self.print_connections()
 
 	def remove_all(self):
+		if not self:
+			notify("Disconnection failed: not connected")
+			return
 		for k in self.keys():
 			self.remove(k)
 
@@ -141,7 +144,7 @@ class ExtemporeConnectCommand(sublime_plugin.TextCommand):
 class ExtemporeDisconnectCommand(sublime_plugin.TextCommand):
 
 	def run(self, edit):
-		connections.remove_all(self.view)
+		connections.remove_all()
 
 #Evaluates the selection or the top-level definition
 class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
