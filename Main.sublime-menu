@@ -5,11 +5,12 @@
 		[
 			{
 				"caption": "Extempore",
+				"id": "Extempore",
 				"children":
 				[
 					{ "caption": "Connect...", "command": "extempore_connect" },
-					{ "caption": "Disconnect...", "command": "extempore_disconnect" },
-					{ "caption": "Evaluate...", "command": "extempore_evaluate" }
+					{ "caption": "Evaluate...", "command": "extempore_evaluate" },
+					{ "caption": "Disconnect...", "command": "extempore_disconnect" }
 				]
 			}
 		]
