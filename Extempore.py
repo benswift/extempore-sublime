@@ -20,12 +20,11 @@ class ExtemporeConnection(object):
 				notify("Evaluation failed: not connected")
 				return
 			self.socket.send(string + '\r\n')
-			notify("Response:" + repr(self.socket.recv(4096)))
+			notify("Response: " + self.socket.recv(4096).decode("UTF-8"))
 			return
 		except socket.error as e:
 			notify("Evaluation failed: %s" % e)
 			return
-		notify("Evaluation success")
 
 	def connect(self, host_str):
 		#cleaning up old socket
