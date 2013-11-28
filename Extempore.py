@@ -69,27 +69,27 @@ class ExtemporeConnection(object):
 class ExtemporeConnectionSet(dict):
 
 	def add(self, view, host_str):
-		if view in self:
-			if host_str in self[view]:
-				self[view][host_str].connect(host_str)
+		if view.id() in self:
+			if host_str in self[view.id()]:
+				self[view.id()][host_str].connect(host_str)
 				self.print_connections()
 				return
 		connection = ExtemporeConnection()
 		connection.connect(host_str)
 		
-		if view in self:
-			self[view][host_str] = connection
+		if view.id() in self:
+			self[view.id()][host_str] = connection
 		else:
-			self[view] = {}
-			self[view][host_str] = connection
+			self[view.id()] = {}
+			self[view.id()][host_str] = connection
 		self.print_connections()
 
 	def remove(self, view):
-		if view in self:
-			for i in self[view].keys():
-				self[view][i].disconnect()
+		if view.id() in self:
+			for i in self[view.id()].keys():
+				self[view.id()][i].disconnect()
 
-			del self[view]
+			del self[view.id()]
 		self.print_connections()
 
 	def remove_all(self):
@@ -102,10 +102,10 @@ class ExtemporeConnectionSet(dict):
 	def print_connections(self):
 		strings = []
 		for v in self.keys():
-			string = str(v.id()) + ": {" + ", ".join(self[v].keys()) + "}"
+			string = str(v) + ": {" + ", ".join(self[v].keys()) + "}"
 			strings.append(string)
 		result = "Connections: {" + ", ".join(strings) + "}"
-		print result
+		print(result)
 
 
 connections = ExtemporeConnectionSet()
@@ -130,7 +130,7 @@ class ExtemporeConnectCommand(sublime_plugin.TextCommand):
 		if self.hosts[idx] == "Other":
 			self.display_input_panel()
 		else:
-			print self.hosts[idx]
+			print (self.hosts[idx])
 			self.connect_view_to_host(self.hosts[idx][0])
 
 	def display_input_panel(self):
@@ -161,16 +161,16 @@ class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 			eval_str = v.substr(v.sel()[0])
 		# send the region to the Extempore server for evaluation
 		try:
-			if self.view in connections:
-				for k in connections[self.view].keys():
-					print k
-					response = connections[self.view][k].evaluate(eval_str)
+			if self.view.id() in connections:
+				for k in connections[self.view.id()].keys():
+					print (k)
+					response = connections[self.view.id()][k].evaluate(eval_str)
 			else:
 				notify("Evaluation failed: not connected")
 		except TypeError as e:
-			notify("Evaluation failed: type error")
+			notify("Evaluation failed: Type error. %s" % e)
 		except socket.error as e:
-			notify("Evaluation failed: %s" % e)
+			notify("Evaluation failed: Socket error. %s" % e)
 
 	def get_top_level_definition(self): 
 		v = self.view
