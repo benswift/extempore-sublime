@@ -13,7 +13,7 @@ To install the plugin, simply download or clone this repo into your
 Installation instructions for Extempore can be found at
 [Extempore's github page](https://github.com/digego/extempore).
 
-# Working with Extempore in Sublime Text
+# Working with Extempore in ST
 
 The plugin provides three commands:
 
