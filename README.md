@@ -38,8 +38,3 @@ Emacs mode, but you can change them to whatever you like.
 The syntax highlighting currently doesn't cover a few edge cases---so
 if you end up tinkering with `Extempore.JSON-tmLanguage` to fix
 anything then feel free to submit a patch.
-
-Also, `extempore_evaluate` currently requires *highlighting* the code
-to evaluate, it would be nice if it would eval the top-level
-s-expression if no region was highlighted. This will hopefully be
-added soon.
