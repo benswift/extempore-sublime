@@ -1,6 +1,6 @@
 # Extempore-Sublime
 
-A Sublime Text 2 plugin for
+A Sublime Text 2 and 3 plugin for
 [Extempore](https://github.com/digego/extempore).  The plugin provides
 syntax highlighting, as well as some commands and keybindings for
 connecting to and working with a running Extempore process.
@@ -8,12 +8,12 @@ connecting to and working with a running Extempore process.
 # Installation
 
 To install the plugin, simply download or clone this repo into your
-[ST2 packages directory](http://docs.sublimetext.info/en/latest/basic_concepts.html#the-packages-directory).
+[Sublime Text packages directory](http://docs.sublimetext.info/en/latest/basic_concepts.html#the-packages-directory).
 
 Installation instructions for Extempore can be found at
 [Extempore's github page](https://github.com/digego/extempore).
 
-# Working with Extempore in ST2
+# Working with Extempore in Sublime Text
 
 The plugin provides three commands:
 
