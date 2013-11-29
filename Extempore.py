@@ -5,21 +5,21 @@ SETTINGS_FILE = 'Extempore.sublime-settings'
 DEFAULT_HOST = 'localhost:7099'
 
 #Print to both the console and the status bar
-def notify(string):
-	sublime.status_message(string)
-	print(string)
+def notify(message):
+	sublime.status_message(message)
+	print(message)
 
 #Defines a single extempore connection
 class ExtemporeConnection(object):
 
 	socket = None
 
-	def evaluate(self, string):
+	def evaluate(self, code):
 		try:
 			if(self.socket is None):
 				notify("Evaluation failed: not connected")
 				return
-			self.socket.send(string + '\r\n')
+			self.socket.send((code + '\r\n').encode())
 			notify("Response: " + self.socket.recv(4096).decode("UTF-8"))
 			return
 		except socket.error as e:
@@ -68,28 +68,28 @@ class ExtemporeConnection(object):
 #Dictionary for a number of extempore connections
 class ExtemporeConnectionSet(dict):
 
-	def add(self, view, host_str):
-		if view.id() in self:
-			if host_str in self[view.id()]:
-				self[view.id()][host_str].connect(host_str)
+	def add(self, view_id, host_str):
+		if view_id in self:
+			if host_str in self[view_id]:
+				self[view_id][host_str].connect(host_str)
 				self.print_connections()
 				return
 		connection = ExtemporeConnection()
 		connection.connect(host_str)
 		
-		if view.id() in self:
-			self[view.id()][host_str] = connection
+		if view_id in self:
+			self[view_id][host_str] = connection
 		else:
-			self[view.id()] = {}
-			self[view.id()][host_str] = connection
+			self[view_id] = {}
+			self[view_id][host_str] = connection
 		self.print_connections()
 
-	def remove(self, view):
-		if view.id() in self:
-			for i in self[view.id()].keys():
-				self[view.id()][i].disconnect()
+	def remove(self, view_id):
+		if view_id in self:
+			for i in self[view_id].keys():
+				self[view_id][i].disconnect()
 
-			del self[view.id()]
+			del self[view_id]
 		self.print_connections()
 
 	def remove_all(self):
@@ -100,11 +100,11 @@ class ExtemporeConnectionSet(dict):
 			self.remove(k)
 
 	def print_connections(self):
-		strings = []
+		connection_strs = []
 		for v in self.keys():
-			string = str(v) + ": {" + ", ".join(self[v].keys()) + "}"
-			strings.append(string)
-		result = "Connections: {" + ", ".join(strings) + "}"
+			connection_str = str(v) + ": {" + ", ".join(self[v].keys()) + "}"
+			connection_strs.append(connection_str)
+		result = "Connections: {" + ", ".join(connection_strs) + "}"
 		print(result)
 
 
@@ -137,7 +137,7 @@ class ExtemporeConnectCommand(sublime_plugin.TextCommand):
 		self.view.window().show_input_panel("Specify 'host:port' to connect to:", DEFAULT_HOST, self.connect_view_to_host, None, None)
 
 	def connect_view_to_host(self, host_str):
-		connections.add(self.view, host_str)
+		connections.add(self.view.id(), host_str)
 
 #Disconnects all connections
 class ExtemporeDisconnectCommand(sublime_plugin.TextCommand):
