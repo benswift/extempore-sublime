@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(bind-lib ${1:lib-name} ${2:fn-name} ${3:type})]]></content>
+	<tabTrigger>bindl</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>bind-lib</description>
+</snippet>

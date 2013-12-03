@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(* width .5) (* height .5)]]></content>
+	<tabTrigger>wh2</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>width-height-half</description>
+</snippet>

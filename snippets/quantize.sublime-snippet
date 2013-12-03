@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(- ${1:val} (% $1 ${2:step}))]]></content>
+	<tabTrigger>quant</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>quantize</description>
+</snippet>

@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[width height]]></content>
+	<tabTrigger>wh</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>width-height</description>
+</snippet>

@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[(bind-func ${1:func-name}
+  (lambda ($2)
+    $0))]]></content>
+	<tabTrigger>bf</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>bind-func</description>
+</snippet>

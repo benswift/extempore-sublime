@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[($1l ($2_c$3))
+($1r ($2_c$3))]]></content>
+	<tabTrigger>sdsp</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>stereo-dsp</description>
+</snippet>

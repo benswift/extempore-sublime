@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[(bind-func test_${1:name}
+  (lambda ()
+    $0))
+
+(test-xtfunc (test_$1))]]></content>
+	<tabTrigger>xtest</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>xtest</description>
+</snippet>

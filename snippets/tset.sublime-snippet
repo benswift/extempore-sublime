@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(tset! ${1:dat} ${2:index} ${3:value})]]></content>
+	<tabTrigger>tset</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>tset</description>
+</snippet>

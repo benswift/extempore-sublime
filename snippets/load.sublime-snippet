@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(sys:load "libs/$0.xtm")]]></content>
+	<tabTrigger>load</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>load</description>
+</snippet>

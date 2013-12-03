@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(*metro* 'get-beat ${1:4})]]></content>
+	<tabTrigger>mgb</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>metro-get-beat</description>
+</snippet>

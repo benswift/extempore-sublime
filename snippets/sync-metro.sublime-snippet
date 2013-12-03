@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[(ipc:connect "${1:server-ip}" "${2:server-name}" ${3:server-port})
+(clock:update-metro "$2" "${4:client-name}")]]></content>
+	<tabTrigger>syncmetro</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>sync-metro</description>
+</snippet>

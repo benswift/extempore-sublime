@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(play-note (now) ${1:inst} ${2:60} ${3:80} ${4:44100})]]></content>
+	<tabTrigger>playnote</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>play-note</description>
+</snippet>

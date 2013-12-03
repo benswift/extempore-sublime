@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(aref$1 ${2:dat} ${3:index})]]></content>
+	<tabTrigger>aref</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>aref</description>
+</snippet>

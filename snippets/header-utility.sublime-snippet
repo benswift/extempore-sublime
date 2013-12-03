@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[;-*- mode: Extempore; extempore-default-port: 7098; -*-
+(ipc:load "primary" "`default-directory`setup.xtm")
+]]></content>
+	<tabTrigger>headeru</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>header-utility</description>
+</snippet>

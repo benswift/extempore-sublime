@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(cos_frame frame ${1:[dc]} ${2:amp} ${3:freq})]]></content>
+	<tabTrigger>cosf</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>cos-frame</description>
+</snippet>

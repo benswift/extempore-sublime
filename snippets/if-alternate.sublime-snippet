@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(if (= ${1:var} ${2:a}) ${3:b} $2)]]></content>
+	<tabTrigger>ifalt</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>if-alternating</description>
+</snippet>

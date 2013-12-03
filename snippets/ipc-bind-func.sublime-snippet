@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(ipc:bind-func "${1:utility}" '${2:func_name})]]></content>
+	<tabTrigger>ipcbf</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>ipc-bind-func</description>
+</snippet>

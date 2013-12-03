@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[(cond ((< chan 0.5)
+       ${1:out})
+      ((< chan 1.5)
+       ${1:$(replace-regexp-in-string "l\\\\>" "r" yas-text)})
+      (else 0.0))]]></content>
+	<tabTrigger>scond</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>stereo-cond</description>
+</snippet>

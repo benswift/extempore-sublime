@@ -1,0 +1,21 @@
+<snippet>
+	<content><![CDATA[(define width ${1:`(display-pixel-width)`.0})
+(define height ${2:`(display-pixel-height)`.0})
+(bind-val width float width)
+(bind-val height float height)
+(define fullscreen ${3:#t})
+
+(sys:load "/Users/ben/Code/xtm/lib/vg-setup.xtm")
+
+(ipc:xtm-render-setup "utility")
+
+(bind-func gl_render
+  (lambda ()
+    ;;          pre  opaq trans post    data
+    (xtm_render null null null  vgframe null)
+    void))
+]]></content>
+	<tabTrigger>vgloop</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>openvg-loop</description>
+</snippet>

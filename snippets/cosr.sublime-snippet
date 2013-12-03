@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(cosr ${1:dc} ${2:amp} ${3:freq})]]></content>
+	<tabTrigger>cosr</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>cosr</description>
+</snippet>

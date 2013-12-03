@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(pset! ${1:dat} ${2:index} ${3:value})]]></content>
+	<tabTrigger>pset</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>pset</description>
+</snippet>

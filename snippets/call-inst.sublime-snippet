@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(${1:inst-name} in time chan dat)]]></content>
+	<tabTrigger>inst</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>call-inst</description>
+</snippet>

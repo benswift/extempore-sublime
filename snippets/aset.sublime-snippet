@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(aset! ${1:dat} ${2:index} ${3:value})]]></content>
+	<tabTrigger>aset</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>aset</description>
+</snippet>

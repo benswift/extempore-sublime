@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(load-sampler ${1:sampler} ${2:"~/Documents/samples/"} ${3:bank} ${4:parse-sample-names-1})]]></content>
+	<tabTrigger>loadsamp</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>load-sampler</description>
+</snippet>

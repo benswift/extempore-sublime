@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(if (> nargs ${1:0}) (pref dargs $1) ${2:else-val})]]></content>
+	<tabTrigger>ifnargs</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>nargs-test</description>
+</snippet>

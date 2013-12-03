@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(printf "$1\n" ${1:$(replace-regexp-in-string "\\\\(:\\\\| =\\\\) %\\\\(lld\\\\|d\\\\|f\\\\|p\\\\|s\\\\|c\\\\)" "" yas-text)})]]></content>
+	<tabTrigger>pfd</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>printf-debug</description>
+</snippet>

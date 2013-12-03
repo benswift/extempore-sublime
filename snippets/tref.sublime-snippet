@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(tref$1 ${2:dat} ${3:index})]]></content>
+	<tabTrigger>tref</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>tref</description>
+</snippet>

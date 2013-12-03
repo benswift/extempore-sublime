@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[(sys:load-preload-check '${1:libname})
+(define *xtmlib-$1-loaded* #f)
+(print "Loading $1 library...")
+(define *xtmlib-$1-loaded* #t)
+(print "done.\n")]]></content>
+	<tabTrigger>libconf</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>lib-loader-config</description>
+</snippet>

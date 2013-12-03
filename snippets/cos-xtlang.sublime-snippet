@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(cos (/ (* TWOPI time ${1:frequency}) SR))]]></content>
+	<tabTrigger>cosx</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>cos-xtlang</description>
+</snippet>

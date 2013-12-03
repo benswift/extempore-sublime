@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[(col_maj (lambda (r c)
+	    (+ r (* c ${1:num_rows}))))]]></content>
+	<tabTrigger>colmaj</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>column-major</description>
+</snippet>

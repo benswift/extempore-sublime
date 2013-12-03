@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(sys:load "`default-directory`setup.xtm")]]></content>
+	<tabTrigger>headerp</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>header-primary</description>
+</snippet>

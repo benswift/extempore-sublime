@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(* (random) width) (* (random) height)]]></content>
+	<tabTrigger>whr</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>width-height-random</description>
+</snippet>

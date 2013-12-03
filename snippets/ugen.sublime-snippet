@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(${1:osc} ${2:amp} ${3:freq})]]></content>
+	<tabTrigger>ugen</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>ugen</description>
+</snippet>

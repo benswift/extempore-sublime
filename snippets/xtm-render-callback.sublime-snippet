@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[(bind-func ${1:$$(yas/choose-value '("pre" "opaque" "transparent" "post" "data"))}:XTMRENDERCB
+  (lambda (frame shader m v p data)
+    $0
+    void))]]></content>
+	<tabTrigger>rendercb</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>xtm-render-callback</description>
+</snippet>

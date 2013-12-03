@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(bind-val ${1:name} ${2:type} ${3:value})]]></content>
+	<tabTrigger>bindv</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>bind-val</description>
+</snippet>

@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(xtm_${1:draw}_path$2 path)]]></content>
+	<tabTrigger>xdp</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>xtm-draw-path</description>
+</snippet>

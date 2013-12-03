@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(map (lambda (${1:x}) ($0$1)))]]></content>
+	<tabTrigger>map1</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>map-1</description>
+</snippet>

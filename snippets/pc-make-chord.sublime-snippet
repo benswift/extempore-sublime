@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(pc:make-chord ${1:lower} ${2:upper} ${3:number} ${4:pcchord}$0)]]></content>
+	<tabTrigger>pcmc</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>pc:make-chord</description>
+</snippet>

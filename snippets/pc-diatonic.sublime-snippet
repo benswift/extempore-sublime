@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[(pc:diatonic ${1:root} '${2:^-} '${3:degree})]]></content>
+	<tabTrigger>pcdia</tabTrigger>
+	<scope>source.extempore</scope>
+	<description>pc-diatonic</description>
+</snippet>
