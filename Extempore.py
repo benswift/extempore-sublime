@@ -1,13 +1,51 @@
 import sublime, sublime_plugin
-import socket
+import socket, threading, errno, time
 
 SETTINGS_FILE = 'Extempore.sublime-settings'
 DEFAULT_HOST = 'localhost:7099'
 
 #Print to both the console and the status bar
 def notify(message):
-	sublime.status_message(message)
+	sublime.set_timeout(lambda: sublime.status_message(message), 1)
 	print(message)
+
+class Listener(threading.Thread):
+
+	running = 1
+
+	def run(self):
+		print("Started thread")
+		while self.running:
+			try:
+				data = self.socket.recv(4096)
+				if data:
+					notify(data.decode("UTF-8"))
+			except socket.error, e:
+				if e.errno == errno.EWOULDBLOCK:
+					pass
+				else:
+					notify("Polling failed: %s" % e)
+					# break here?
+
+			time.sleep(0.5)
+		print("Terminated thread")
+
+	def set_socket(self, socket):
+		self.socket = socket
+
+	def notify_stop(self):
+		self.running = 0
+
+class ListenerWrapper(object):
+
+	def __init__(self, socket):
+		self.listener = Listener()
+		self.listener.setDaemon(True)
+		self.listener.set_socket(socket)
+		self.listener.start()
+
+	def __del__(self):
+		self.listener.notify_stop()
 
 #Defines a single extempore connection
 class ExtemporeConnection(object):
@@ -20,7 +58,6 @@ class ExtemporeConnection(object):
 				notify("Evaluation failed: not connected")
 				return
 			self.socket.send((code + '\r\n').encode())
-			notify("Response: " + self.socket.recv(4096).decode("UTF-8"))
 			return
 		except socket.error as e:
 			notify("Evaluation failed: %s" % e)
@@ -41,9 +78,8 @@ class ExtemporeConnection(object):
 			host = (h, int(p))
 			# set up the socket
 			self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			self.socket.settimeout(2.0)
 			self.socket.connect(host)
-			data = self.socket.recv(1024)
+			self.listener = ListenerWrapper(self.socket)
 		except ValueError:
 			notify("Connection failed: host:port string invalid")
 			return
@@ -55,11 +91,12 @@ class ExtemporeConnection(object):
 
 	def disconnect(self):
 		try:
-			if(self.socket is None):
+			if(self.socket is None or self.listener is None):
 				notify("Disconnection failed: not connected")
 				return
 			self.socket.close()
 			self.socket = None
+			self.listener = None
 			notify("Disconnection success")
 			return
 		except socket.error as e:
@@ -163,7 +200,6 @@ class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 		try:
 			if self.view.id() in connections:
 				for k in connections[self.view.id()].keys():
-					print (k)
 					response = connections[self.view.id()][k].evaluate(eval_str)
 			else:
 				notify("Evaluation failed: not connected")
