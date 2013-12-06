@@ -21,13 +21,9 @@ class Listener(threading.Thread):
 				if data:
 					notify(data.decode("UTF-8"))
 			except socket.error, e:
-				if e.errno == errno.EWOULDBLOCK:
-					pass
-				else:
-					notify("Polling failed: %s" % e)
-					# break here?
-
-			time.sleep(0.5)
+				notify("Polling failed: %s" % e)
+				if e.errno == errno.WSAECONNRESET or e.errno == errno.ERROR_PORT_UNREACHABLE: #connection forcibly closed
+					self.running = 0
 		print("Terminated thread")
 
 	def set_socket(self, socket):
