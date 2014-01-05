@@ -20,7 +20,7 @@ class Listener(threading.Thread):
 				data = self.socket.recv(4096)
 				if data:
 					notify(data.decode("UTF-8"))
-			except socket.error, e:
+			except socket.error as e:
 				notify("Polling failed: %s" % e)
 				if e.errno == errno.WSAECONNRESET or e.errno == errno.ERROR_PORT_UNREACHABLE: #connection forcibly closed
 					self.running = 0
