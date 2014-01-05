@@ -24,6 +24,7 @@ class Listener(threading.Thread):
 				notify("Polling failed: %s" % e)
 				if e.errno == errno.WSAECONNRESET or e.errno == errno.ERROR_PORT_UNREACHABLE: #connection forcibly closed
 					self.running = 0
+			time.sleep(0.1)
 		print("Terminated thread")
 
 	def set_socket(self, socket):
