@@ -1,5 +1,5 @@
 import sublime, sublime_plugin
-import socket, threading, errno, time
+import os, socket, threading, errno, time
 
 SETTINGS_FILE = 'Extempore.sublime-settings'
 DEFAULT_HOST = 'localhost:7099'
@@ -14,18 +14,21 @@ class Listener(threading.Thread):
 	running = 1
 
 	def run(self):
-		print("Started thread")
+		print("Started listening thread")
 		while self.running:
 			try:
 				data = self.socket.recv(4096)
 				if data:
-					notify(data.decode("UTF-8"))
+					notify(data.partition(b'\0')[0].decode("UTF-8"))
 			except socket.error as e:
-				notify("Polling failed: %s" % e)
-				if e.errno == errno.WSAECONNRESET or e.errno == errno.ERROR_PORT_UNREACHABLE: #connection forcibly closed
+				if e.errno == errno.EBADF or e.errno == errno.ECONNRESET: #socket has been closed
 					self.running = 0
+				elif os.name == 'nt' and (e.errno == errno.WSAECONNRESET or e.errno == errno.ERROR_PORT_UNREACHABLE): #windows connection forcibly closed
+					self.running = 0
+				else:
+					notify("Polling failed: %s" % e)
 			time.sleep(0.1)
-		print("Terminated thread")
+		print("Terminated listening thread")
 
 	def set_socket(self, socket):
 		self.socket = socket
@@ -91,9 +94,10 @@ class ExtemporeConnection(object):
 			if(self.socket is None or self.listener is None):
 				notify("Disconnection failed: not connected")
 				return
+			self.listener = None
 			self.socket.close()
 			self.socket = None
-			self.listener = None
+			
 			notify("Disconnection success")
 			return
 		except socket.error as e:
@@ -120,8 +124,8 @@ class ExtemporeConnectionSet(dict):
 
 	def remove(self, view_id):
 		if view_id in self:
-			for i in self[view_id].keys():
-				self[view_id][i].disconnect()
+			for key, value in self[view_id].items():
+				value.disconnect()
 
 			del self[view_id]
 		self.print_connections()
@@ -130,8 +134,11 @@ class ExtemporeConnectionSet(dict):
 		if not self:
 			notify("Disconnection failed: not connected")
 			return
-		for k in self.keys():
-			self.remove(k)
+		for view_key, view_value in self.items():
+			for key, value in view_value.items():
+				value.disconnect()
+		self.clear()
+		self.print_connections()
 
 	def print_connections(self):
 		connection_strs = []
