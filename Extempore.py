@@ -200,6 +200,8 @@ class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 			eval_str = self.get_top_level_definition()
 		else:
 			eval_str = v.substr(v.sel()[0])
+			self.highlight(v.sel())
+
 		# send the region to the Extempore server for evaluation
 		try:
 			if self.view.id() in connections:
@@ -224,9 +226,16 @@ class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 			old_reg = reg
 			reg = v.sel()[0]
 		def_str = v.substr(v.sel()[0])
+
+		self.highlight(v.sel())
+
 		# return the point to where it was
 		v.sel().clear()
 		v.sel().add(initial_reg)
 		return def_str
 
+	def highlight(self, regions):
+		v = self.view
+		v.add_regions("ExtemporeEvaluate", [regions[0]], "string", "", False * sublime.DRAW_OUTLINED)
+		sublime.set_timeout(lambda: v.erase_regions("ExtemporeEvaluate"), 200)# Note that this will clear all existing regions with the given key. Will fail to clear correctly when called twice quickly
 

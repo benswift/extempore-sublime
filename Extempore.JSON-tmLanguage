@@ -35,8 +35,23 @@
                 "name": "support.type.extempore"
             }
         }, 
-            "match": "\\((bind-alias|bind-type|bind-val)(\\s+)((\\w|\\-|\\!|\\?)+)(\\s+)(([^ \t\\)])+)",
+            "match": "\\((bind-alias|bind-type|bind-val|bind-poly)(\\s+)((\\w|\\-|\\!|\\?)+)(\\s+)(([^ \t\\)])+)",
             "name": "meta.type.binding.extempore"
+    },
+    {
+        "captures": {
+            "1": {
+                "name": "storage.type.function-type.extempore"
+            }, 
+            "6": {
+                "name": "entity.name.function.extempore"
+            },
+            "9": {
+                "name": "support.type.extempore"
+            }
+        }, 
+            "match": "\\((bind-lib|bind-lib-func|bind-lib-type|bind-lib-val|bind-lib-type-no-scm)(\\s+)((\\w|\\-|\\!|\\?)+)(\\s+)((\\w|\\-|\\!|\\?)+)(\\s+)(([^ \t\\)])+)",
+            "name": "meta.lib.binding.extempore"
     },
     {
         "captures": {
@@ -64,7 +79,7 @@
         "name": "support.type.extempore"
     }, 
     {
-        "match": "\\b(case|do|dotimes|let|letrec|if|else|and|or|not)\\b", 
+        "match": "\\b(case|do|dotimes|let|letrec|if|else|and|or|not|equal)\\b", 
         "name": "keyword.control.extempore"
     }, 
     {
@@ -80,7 +95,7 @@
         "name": "constant.language.extempore"
     }, 
     {
-        "match": "\\b(cons|car|cdr|cond|lambda|quote|eval|append|list|vector|member|load|begin|map|apply|for-each)\\b", 
+        "match": "\\b(cons|car|cdr|cond|lambda|quote|eval|append|list|vector|member|load|begin|map|apply|for-each|println|printf|print|rmatch|rsplit|rreplace|cosd|tand|sind|coshd|tanhd|sinhd|acosd|asind|atand|atan2d|ceild|floord|expd|fmodd|powd|logd|log2d|log10d|sqrtd|fabsd|clearerr|ctermid|fclose|fdopen|feof|ferror|fflush|fgetc|fgets|fileno|flockfile|fopen|fputc|fputs|fread|freopen|fseek|ftell|ftrylockfile|funlockfile|fwrite|getc|getchar|getc_unlocked|getchar_unlocked|gets|getw|pclose|perror|popen|putc|putchar|putc_unlocked|putchar_unlocked|puts|putw|remove|rename|rewind|setbuf|setvbuf|tempnam|tmpfile|tmpnam|ungetc|atof|atoi|atol|memccpy|memchr|memcmp|memcpy|memmove|memset|strcat|strchr|strcmp|strcoll|strcpy|strcspn|strdup|strerror|strlen|strncat|strncmp|strncpy|strpbrk|strrchr|strspn|strstr|strtok|strtok_r|strxfrm|base64_encode|base64_decode|cname_encode|cname_decode|swap64f|unswap64f|swap32f|unswap32f|swap64i|unswap64i|swap32i|unswap32i|thread_fork|thread_fork|thread_join|thread_kill|thread_self|thread_sleep|mutex_create|mutex_destroy|mutex_lock|mutex_unlock|mutex_trylock)\\b", 
         "name": "support.function.extempore"
     }, 
     {
