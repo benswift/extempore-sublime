@@ -1,4 +1,4 @@
 [
-  { "keys": ["ctrl+x", "ctrl+x"], "command": "extempore_evaluate" },
-  { "keys": ["ctrl+x", "ctrl+y"], "command": "extempore_connect" }
+  // uncomment these lines (and change the keybindigs) as you like
+  // { "keys": ["ctrl+e"], "command": "extempore_evaluate" },
 ]
