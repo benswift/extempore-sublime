@@ -17,13 +17,13 @@ Installation instructions for Extempore can be found at
 
 The plugin provides three commands:
 
-- `extempore_connect` (`ctrl+x, ctrl+y`) will connect to a running
+- `extempore_connect` will connect to a running
   (local) Extempore process on the default port. You have to start
   this Extempore process yourself, generally in another terminal.
 
 - `extempore_disconnect` does what it says on the tin.
 
-- `extempore_evaluate` (`ctrl+x, ctrl+x`) will evaluate either the
+- `extempore_evaluate` will evaluate either the
   currently highlighted region (if applicable) or the current
   top-level def surrounding the cursor. This is how you send code to
   the Extempore process for evaluation.
@@ -32,6 +32,12 @@ You can trigger the commands either through the menu (`Tools >
 Extempore`), or the command palette (`ctrl+shift+P`) or through the
 shortcut keys. The default keybindings are the same as the Extempore
 Emacs mode, but you can change them to whatever you like.
+
+# Keybindings
+
+If you want to set up your own keybindings for e.g.
+`extempore_evaluate`, then you can do that in
+`Default.sublime-keymap`.
 
 # Known Issues
 
