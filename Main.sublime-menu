@@ -9,8 +9,9 @@
 				"children":
 				[
 					{ "caption": "Connect...", "command": "extempore_connect" },
-					{ "caption": "Evaluate...", "command": "extempore_evaluate" },
-					{ "caption": "Disconnect...", "command": "extempore_disconnect" }
+					{ "caption": "Evaluate", "command": "extempore_evaluate" },
+					{ "caption": "Disconnect", "command": "extempore_disconnect" },
+					{ "caption": "Disconnect All", "command": "extempore_disconnect_all" }
 				]
 			}
 		]
