@@ -3,18 +3,27 @@ import os, socket, threading, errno, time
 
 SETTINGS_FILE = 'Extempore.sublime-settings'
 DEFAULT_HOST = 'localhost:7099'
+DEBUG = True
 
 #Print to both the console and the status bar
 def notify(message):
 	sublime.set_timeout(lambda: sublime.status_message(message), 1)
-	print(message)
+	log(message)
+
+#Logs to the console for debug
+def log(message):
+	if DEBUG:
+		print("Extempore: " + message)
+
+def is_extempore_view(view):
+	return view.settings().get('syntax') == "Packages/Extempore/Extempore.tmLanguage"
 
 class Listener(threading.Thread):
 
 	running = 1
 
 	def run(self):
-		print("Started listening thread")
+		log("Started listening thread")
 		while self.running:
 			try:
 				data = self.socket.recv(4096)
@@ -28,7 +37,7 @@ class Listener(threading.Thread):
 				else:
 					notify("Polling failed: %s" % e)
 			time.sleep(0.1)
-		print("Terminated listening thread")
+		log("Terminated listening thread")
 
 	def set_socket(self, socket):
 		self.socket = socket
@@ -110,7 +119,7 @@ class ExtemporeConnectionSet(dict):
 		if view_id in self:
 			if host_str in self[view_id]:
 				self[view_id][host_str].connect(host_str)
-				self.print_connections()
+				self.log_connections()
 				return
 		connection = ExtemporeConnection()
 		connection.connect(host_str)
@@ -120,7 +129,7 @@ class ExtemporeConnectionSet(dict):
 		else:
 			self[view_id] = {}
 			self[view_id][host_str] = connection
-		self.print_connections()
+		self.log_connections()
 
 	def remove(self, view_id):
 		if view_id in self:
@@ -128,7 +137,7 @@ class ExtemporeConnectionSet(dict):
 				value.disconnect()
 
 			del self[view_id]
-		self.print_connections()
+		self.log_connections()
 
 	def remove_all(self):
 		if not self:
@@ -138,15 +147,15 @@ class ExtemporeConnectionSet(dict):
 			for key, value in view_value.items():
 				value.disconnect()
 		self.clear()
-		self.print_connections()
+		self.log_connections()
 
-	def print_connections(self):
+	def log_connections(self):
 		connection_strs = []
 		for v in self.keys():
 			connection_str = str(v) + ": {" + ", ".join(self[v].keys()) + "}"
 			connection_strs.append(connection_str)
 		result = "Connections: {" + ", ".join(connection_strs) + "}"
-		print(result)
+		log(result)
 
 
 connections = ExtemporeConnectionSet()
@@ -155,6 +164,9 @@ connections = ExtemporeConnectionSet()
 class ExtemporeConnectCommand(sublime_plugin.TextCommand):
 
 	hosts = []
+
+	def is_enabled(self):
+		return is_extempore_view(self.view)
 
 	def run(self, edit):
 		settings = sublime.load_settings(SETTINGS_FILE)
@@ -171,7 +183,6 @@ class ExtemporeConnectCommand(sublime_plugin.TextCommand):
 		if self.hosts[idx] == "Other":
 			self.display_input_panel()
 		else:
-			print (self.hosts[idx])
 			self.connect_view_to_host(self.hosts[idx][0])
 
 	def display_input_panel(self):
@@ -180,8 +191,21 @@ class ExtemporeConnectCommand(sublime_plugin.TextCommand):
 	def connect_view_to_host(self, host_str):
 		connections.add(self.view.id(), host_str)
 
-#Disconnects all connections
+
+#Disconnects current connection
 class ExtemporeDisconnectCommand(sublime_plugin.TextCommand):
+
+	def is_enabled(self):
+		return is_extempore_view(self.view) and self.view.id() in connections
+
+	def run(self, edit):
+		connections.remove(self.view.id())
+
+#Disconnects all connections
+class ExtemporeDisconnectAllCommand(sublime_plugin.TextCommand):
+
+	def is_enabled(self):
+		return len(connections) > 0
 
 	def run(self, edit):
 		connections.remove_all()
@@ -189,8 +213,8 @@ class ExtemporeDisconnectCommand(sublime_plugin.TextCommand):
 #Evaluates the selection or the top-level definition
 class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 
-	def __init__(self, view):
-		sublime_plugin.TextCommand.__init__(self, view)
+	def is_enabled(self):
+		return is_extempore_view(self.view) and self.view.id() in connections
 
 	def run(self, edit):
 
@@ -237,5 +261,12 @@ class ExtemporeEvaluateCommand(sublime_plugin.TextCommand):
 	def highlight(self, regions):
 		v = self.view
 		v.add_regions("ExtemporeEvaluate", [regions[0]], "string", "", False * sublime.DRAW_OUTLINED)
-		sublime.set_timeout(lambda: v.erase_regions("ExtemporeEvaluate"), 200)# Note that this will clear all existing regions with the given key. Will fail to clear correctly when called twice quickly
+		# Note that this will clear all existing regions with the given key. Will fail to clear correctly when called twice quickly
+		sublime.set_timeout(lambda: v.erase_regions("ExtemporeEvaluate"), 200)
+
+class ExtemporeEventListener(sublime_plugin.EventListener):
+
+	def on_close(self, view):
+		if is_extempore_view(view) and view.id() in connections:
+			connections.remove(view.id())
 
