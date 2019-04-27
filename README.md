@@ -1,5 +1,8 @@
 # Extempore-Sublime
 
+*Note: this plugin is no-longer actively developed---if you're a keen ST &
+Extempore user and want to try and resurrect it, pull requests welcome* 😊
+
 A Sublime Text 2 and 3 plugin for
 [Extempore](https://github.com/digego/extempore).  The plugin provides
 syntax highlighting, as well as some commands and keybindings for
