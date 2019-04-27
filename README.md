@@ -5,7 +5,7 @@ A Sublime Text 2 and 3 plugin for
 syntax highlighting, as well as some commands and keybindings for
 connecting to and working with a running Extempore process.
 
-# Installation
+## Installation
 
 To install the plugin, simply download or clone this repo into your
 [Sublime Text packages directory](http://docs.sublimetext.info/en/latest/basic_concepts.html#the-packages-directory).
@@ -13,7 +13,7 @@ To install the plugin, simply download or clone this repo into your
 Installation instructions for Extempore can be found at
 [Extempore's github page](https://github.com/digego/extempore).
 
-# Working with Extempore in ST
+## Working with Extempore in ST
 
 The plugin provides three commands:
 
@@ -33,13 +33,13 @@ Extempore`), or the command palette (`ctrl+shift+P`) or through the
 shortcut keys. The default keybindings are the same as the Extempore
 Emacs mode, but you can change them to whatever you like.
 
-# Keybindings
+## Keybindings
 
 If you want to set up your own keybindings for e.g.
 `extempore_evaluate`, then you can do that in
 `Default.sublime-keymap`.
 
-# Known Issues
+## Known Issues
 
 The syntax highlighting currently doesn't cover a few edge cases---so
 if you end up tinkering with `Extempore.JSON-tmLanguage` to fix
